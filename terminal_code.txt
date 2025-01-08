@@ -227,3 +227,96 @@ bf3cbeefaa67565fb0e6996b25c8008330859eb6f384d9d5126561c45b379413
 
 
 (base) dai@pgdai:~/Desktop/rajesh$ 
+
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ echo "# aipcat-lab-test" >> README.md
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ git init
+Initialized empty Git repository in /home/dai/Desktop/rajesh/.git/
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git add README.md
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git commit -m "first commit"
+[main (root-commit) 5d2990d] first commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git branch -M main
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git remote add origin https://github.com/sngrajesh/aipcat-lab-test.git
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git push -u origin main
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Authentication failed for 'https://github.com/sngrajesh/aipcat-lab-test.git/'
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git push -u origin main
+Username for 'https://github.com': sngrajesh
+Password for 'https://sngrajesh@github.com': 
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 234 bytes | 234.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/sngrajesh/aipcat-lab-test.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git add .
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git commit -m "created app files" 
+[main 70f98f3] created app files
+ 4 files changed, 271 insertions(+)
+ create mode 100644 Dockerfile
+ create mode 100644 app.py
+ create mode 100644 requirements.txt
+ create mode 100644 terminal_code.txt
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ git push -u origin main
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 2.88 KiB | 1.44 MiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/sngrajesh/aipcat-lab-test.git
+   5d2990d..70f98f3  main -> main
+branch 'main' set up to track 'origin/main'.
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh (main)$ 
+
