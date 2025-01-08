@@ -1,0 +1,229 @@
+(base) dai@pgdai:~/Desktop/rajesh$ docker pull python
+Using default tag: latest
+latest: Pulling from library/python
+Digest: sha256:cea505b81701dd9e46b8dde96eaa8054c4bd2035dbb660edeb7af947ed38a0ad
+Status: Image is up to date for python:latest
+docker.io/library/python:latest
+v
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ vim Dockerfile
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ vim app.py
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ ls
+app.py  Dockerfile
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ vim requirements.txt 
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ cat app.py 
+import flask
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Welcome to CDAC!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
+    
+    
+(base) dai@pgdai:~/Desktop/rajesh$ 
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ vim requirements.txt 
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ cat requirements.txt 
+Flask
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ cat Dockerfile 
+FROM python:3.10.6-slim-buster
+
+WORKDIR /app
+COPY . /app
+RUN pip install -r requirements.txt
+EXPOSE 5000
+CMD ["python", "app.py"]
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker build -t flaskapp .
+[+] Building 25.6s (10/10) FINISHED                                                                                                                                            docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                                     0.3s
+ => => transferring dockerfile: 169B                                                                                                                                                     0.0s
+ => [internal] load metadata for docker.io/library/python:3.10.6-slim-buster                                                                                                             3.2s
+ => [auth] library/python:pull token for registry-1.docker.io                                                                                                                            0.0s
+ => [internal] load .dockerignore                                                                                                                                                        0.3s
+ => => transferring context: 2B                                                                                                                                                          0.0s
+ => [1/4] FROM docker.io/library/python:3.10.6-slim-buster@sha256:f17c94905c9cd56dce9ef6ce63229045a75f395f7b5b68eb69ef617079c51848                                                       7.6s
+ => => resolve docker.io/library/python:3.10.6-slim-buster@sha256:f17c94905c9cd56dce9ef6ce63229045a75f395f7b5b68eb69ef617079c51848                                                       0.2s
+ => => sha256:f17c94905c9cd56dce9ef6ce63229045a75f395f7b5b68eb69ef617079c51848 988B / 988B                                                                                               0.0s
+ => => sha256:ddfe4839f1516d0484944e07ea22200ede3d48828ecbf1f68eec1a9a06b79406 1.37kB / 1.37kB                                                                                           0.0s
+ => => sha256:85d90b416bbd41621581431fc31f8a15f52fc1fe9e86616aec77b9e574b9797a 7.49kB / 7.49kB                                                                                           0.0s
+ => => sha256:15d04b3d1b9d2c709f48e1224daac0ab09f65130a892380cf1f725f980dbb0fa 2.78MB / 2.78MB                                                                                           0.6s
+ => => sha256:161aa2cc51ccbffce9802b1d00087eeb4eb1235b27fc1178f6b7af051b2db0f2 12.00MB / 12.00MB                                                                                         1.0s
+ => => sha256:2238450926aa858e592e60bb5d68dd26eeab8a984eee45505ca89d2022e3b450 27.14MB / 27.14MB                                                                                         1.5s
+ => => sha256:5d6e2cd6b327d9def32f98465dd2545090d020c04edba8319791cf1194c6a3aa 233B / 233B                                                                                               1.7s
+ => => sha256:2d4a43fe0164c82f7dec3bfd066929d21e07c4e09d7bd659f675b86c96655625 3.33MB / 3.33MB                                                                                           1.8s
+ => => extracting sha256:2238450926aa858e592e60bb5d68dd26eeab8a984eee45505ca89d2022e3b450                                                                                                1.0s
+ => => extracting sha256:15d04b3d1b9d2c709f48e1224daac0ab09f65130a892380cf1f725f980dbb0fa                                                                                                0.2s
+ => => extracting sha256:161aa2cc51ccbffce9802b1d00087eeb4eb1235b27fc1178f6b7af051b2db0f2                                                                                                0.4s
+ => => extracting sha256:5d6e2cd6b327d9def32f98465dd2545090d020c04edba8319791cf1194c6a3aa                                                                                                0.0s
+ => => extracting sha256:2d4a43fe0164c82f7dec3bfd066929d21e07c4e09d7bd659f675b86c96655625                                                                                                0.3s
+ => [internal] load build context                                                                                                                                                        0.6s
+ => => transferring context: 460B                                                                                                                                                        0.0s
+ => [2/4] WORKDIR /app                                                                                                                                                                   4.7s
+ => [3/4] COPY . /app                                                                                                                                                                    0.9s
+ => [4/4] RUN pip install -r requirements.txt                                                                                                                                            6.2s
+ => exporting to image                                                                                                                                                                   1.3s 
+ => => exporting layers                                                                                                                                                                  0.9s 
+ => => writing image sha256:46d648a3aed3cf9917810bb5752182b7723ce71b4ae8e45910fe7bd7e180f5a1                                                                                             0.0s 
+ => => naming to docker.io/library/flaskapp                                                                                                                                              0.1s 
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker run -d --name flaskapp -p 5000:5000 flaskapp
+4229a59e0738fe4dc7c197b19fd966a179e21deff860f6a1b25e7f930e9a7efb                                                                                                                              
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker logs flaskapp
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 352-283-978
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker ps
+CONTAINER ID   IMAGE      COMMAND           CREATED              STATUS              PORTS                                       NAMES
+4229a59e0738   flaskapp   "python app.py"   About a minute ago   Up About a minute   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   flaskapp
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker stop flaskapp
+flaskapp
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker start flaskapp
+flaskapp
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker logs flaskapp 
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 352-283-978
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 352-283-978
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker build -t flaskapp .
+[+] Building 12.8s (10/10) FINISHED                                                                                                                                            docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                                     0.3s
+ => => transferring dockerfile: 192B                                                                                                                                                     0.0s
+ => [internal] load metadata for docker.io/library/python:3.10.6-slim-buster                                                                                                             2.2s
+ => [auth] library/python:pull token for registry-1.docker.io                                                                                                                            0.0s
+ => [internal] load .dockerignore                                                                                                                                                        0.1s
+ => => transferring context: 2B                                                                                                                                                          0.0s
+ => [1/4] FROM docker.io/library/python:3.10.6-slim-buster@sha256:f17c94905c9cd56dce9ef6ce63229045a75f395f7b5b68eb69ef617079c51848                                                       0.0s
+ => [internal] load build context                                                                                                                                                        0.1s
+ => => transferring context: 494B                                                                                                                                                        0.0s
+ => CACHED [2/4] WORKDIR /app                                                                                                                                                            0.0s
+ => [3/4] COPY . /app                                                                                                                                                                    1.3s
+ => [4/4] RUN pip install -r requirements.txt                                                                                                                                            6.7s
+ => exporting to image                                                                                                                                                                   1.0s 
+ => => exporting layers                                                                                                                                                                  0.7s 
+ => => writing image sha256:fa005ba7f3333d108af5ea011d53cd40270140125f9ae1ab128237248078bcce                                                                                             0.0s 
+ => => naming to docker.io/library/flaskapp                                                                                                                                              0.1s 
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ ^[[200~docker run -d --name flaskapp -p 5000:5000 flaskapp                                                                                                 
+docker: command not found                                                                                                                                                                     
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker run -d --name flaskapp -p 5000:5000 flaskapp
+docker: Error response from daemon: Conflict. The container name "/flaskapp" is already in use by container "4229a59e0738fe4dc7c197b19fd966a179e21deff860f6a1b25e7f930e9a7efb". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker rm flaskapp
+Error response from daemon: cannot remove container "/flaskapp": container is running: stop the container before removing or force remove
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker stop flaskapp
+flaskapp
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker rm flaskapp
+flaskapp
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ docker run -d --name flaskapp -p 5000:5000 flaskapp
+bf3cbeefaa67565fb0e6996b25c8008330859eb6f384d9d5126561c45b379413
+
+
+
+
+(base) dai@pgdai:~/Desktop/rajesh$ 
